@@ -51,16 +51,17 @@ Get-ChildItem -Path "$flacPath" *.flac |
 
         $Mp3Name = $_.BaseName + ".mp3"
 
-        $flacCmd = "$flac -s -d `"$FlacName`" -o $tmp"
-        Write-Host $flacCmd
-        Invoke-Expression $flacCmd
+        # $flacCmd = "$flac -s -d `"$FlacName`" -o $tmp"
+        # Write-Host $flacCmd
+        # Invoke-Expression $flacCmd
 
         # TODO: tag validation
-        $lameCmd = "$lame --silent -m j -b 320 --tt `"$Title`" --ta `"$Artist`" --tl `"$Album`" --ty `"$Year`" --tg `"$Genre`" --tn `"$TrackNum`" --tv `"TPOS=$DiscNum`" --add-id3v2 --ignore-tag-errors `"$tmp`" `"$Mp3Name`""
-        Write-Host $lameCmd
-        Invoke-Expression $lameCmd
+        # $lameCmd = "$lame --silent -m j -b 320 --tt `"$Title`" --ta `"$Artist`" --tl `"$Album`" --ty `"$Year`" --tg `"$Genre`" --tn `"$TrackNum`" --tv `"TPOS=$DiscNum`" --add-id3v2 --ignore-tag-errors `"$tmp`" `"$Mp3Name`""
+        $convCmd = "ffmpeg -i `"$flacName`" -ab 320k -map_metadata 0 -id3v2_version 3 `"$Mp3Name`""
+        Write-Host $convCmd
+        Invoke-Expression $convCmd
 
-        Remove-Item $tmp
+        # Remove-Item $tmp
     }
 
 Write-Host "`n`n`t\m/"
