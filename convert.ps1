@@ -57,7 +57,7 @@ Get-ChildItem -Path "$flacPath" *.flac |
 
         # TODO: tag validation
         # $lameCmd = "$lame --silent -m j -b 320 --tt `"$Title`" --ta `"$Artist`" --tl `"$Album`" --ty `"$Year`" --tg `"$Genre`" --tn `"$TrackNum`" --tv `"TPOS=$DiscNum`" --add-id3v2 --ignore-tag-errors `"$tmp`" `"$Mp3Name`""
-        $convCmd = "ffmpeg -i `"$flacName`" -ab 320k -map_metadata 0 -id3v2_version 3 `"$Mp3Name`""
+        $convCmd = "ffmpeg -loglevel warning -i `"$flacName`" -ab 320k -map_metadata 0 -id3v2_version 3 `"$Mp3Name`""
         Write-Host $convCmd
         Invoke-Expression $convCmd
 
