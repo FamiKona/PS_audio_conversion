@@ -36,7 +36,7 @@ Get-ChildItem -Path "$flacPath" *.flac |
         Write-Host "$Title"
 
         # Artist tag could be used later
-        $Artist=Get-Tag $meta $FlacName "ARTIST"
+        # $Artist=Get-Tag $meta $FlacName "ARTIST"
         $Album=Get-Tag $meta $FlacName "ALBUM"
         $Year=Get-Tag $meta $FlacName "DATE"
         $sYear=$Year.split('-')[0]
