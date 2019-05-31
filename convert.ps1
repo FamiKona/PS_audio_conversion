@@ -5,12 +5,12 @@
 param([string] $flacPath)
 
 # https://xiph.org/flac/download.html
-#$flac = "C:\Users\Connor\FLAC\flac-1.3.2-win\win64\flac.exe"
+# $flac = "C:\Users\Connor\FLAC\flac-1.3.2-win\win64\flac.exe"
 $meta = "C:\Users\Connor\FLAC\flac-1.3.2-win\win64\metaflac.exe"
 
 # http://lame.sourceforge.net/links.php#Binaries
 # http://www.rarewares.org/mp3-lame-bundle.php
-#$lame = "C:\lame.exe"
+# $lame = "C:\lame.exe"
 
 function Get-Tag
 {
