@@ -42,14 +42,14 @@ Get-ChildItem -Path "$flacPath" *.flac |
         $sYear=$Year.split('-')[0]
         
         # Unused for now, could be of use later
-        $DiscNum=Get-Tag $meta $FlacName "DISCNUMBER"
-        $DiscNum += "/"
-        $DiscNum += Get-Tag $meta $FlacName "DISCTOTAL"
+        # $DiscNum=Get-Tag $meta $FlacName "DISCNUMBER"
+        # $DiscNum += "/"
+        # $DiscNum += Get-Tag $meta $FlacName "DISCTOTAL"
         
         # Unused for now, could be of use later
-        $TrackNum=Get-Tag $meta $FlacName "TRACKNUMBER"
-        $TrackNum += "/"
-        $TrackNum += Get-Tag $meta $FlacName "TRACKTOTAL"
+        # $TrackNum=Get-Tag $meta $FlacName "TRACKNUMBER"
+        # $TrackNum += "/"
+        # $TrackNum += Get-Tag $meta $FlacName "TRACKTOTAL"
 
         
         $UpperFolder = "../[$sYear] - $Album [320]/"
