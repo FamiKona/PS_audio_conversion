@@ -5,12 +5,12 @@
 param([string] $flacPath)
 
 # https://xiph.org/flac/download.html
-$flac = "C:\Users\Connor\FLAC\flac-1.3.2-win\win64\flac.exe"
+#$flac = "C:\Users\Connor\FLAC\flac-1.3.2-win\win64\flac.exe"
 $meta = "C:\Users\Connor\FLAC\flac-1.3.2-win\win64\metaflac.exe"
 
 # http://lame.sourceforge.net/links.php#Binaries
 # http://www.rarewares.org/mp3-lame-bundle.php
-$lame = "C:\lame.exe"
+#$lame = "C:\lame.exe"
 
 function Get-Tag
 {
@@ -21,7 +21,6 @@ function Get-Tag
     (Invoke-Expression $cmd) -Replace "$tagName=", ""
 }
 
-$tmp = "temp.wav"
 $counter = 0
 Get-ChildItem -Path "$flacPath" *.flac | 
     ForEach-Object {
@@ -36,32 +35,35 @@ Get-ChildItem -Path "$flacPath" *.flac |
         $Title=Get-Tag $meta $FlacName "TITLE"
         Write-Host "$Title"
 
+        # Artist tag could be used later
         $Artist=Get-Tag $meta $FlacName "ARTIST"
         $Album=Get-Tag $meta $FlacName "ALBUM"
         $Year=Get-Tag $meta $FlacName "DATE"
-        $Genre=Get-Tag $meta $FlacName "GENRE"
+        $sYear=$Year.split('-')[0]
         
+        # Unused for now, could be of use later
         $DiscNum=Get-Tag $meta $FlacName "DISCNUMBER"
         $DiscNum += "/"
         $DiscNum += Get-Tag $meta $FlacName "DISCTOTAL"
         
+        # Unused for now, could be of use later
         $TrackNum=Get-Tag $meta $FlacName "TRACKNUMBER"
         $TrackNum += "/"
         $TrackNum += Get-Tag $meta $FlacName "TRACKTOTAL"
 
-        $Mp3Name = $_.BaseName + ".mp3"
+        
+        $UpperFolder = "../[$sYear] - $Album [320]/"
+        if (!(Test-Path -LiteralPath $UpperFolder))
+        {
+            mkdir $UpperFolder
+        }
+        $Mp3Name = $UpperFolder + $_.BaseName + ".mp3"
 
-        # $flacCmd = "$flac -s -d `"$FlacName`" -o $tmp"
-        # Write-Host $flacCmd
-        # Invoke-Expression $flacCmd
 
-        # TODO: tag validation
-        # $lameCmd = "$lame --silent -m j -b 320 --tt `"$Title`" --ta `"$Artist`" --tl `"$Album`" --ty `"$Year`" --tg `"$Genre`" --tn `"$TrackNum`" --tv `"TPOS=$DiscNum`" --add-id3v2 --ignore-tag-errors `"$tmp`" `"$Mp3Name`""
         $convCmd = "ffmpeg -loglevel warning -vsync 0 -i `"$flacName`" -ab 320k -map_metadata 0 -id3v2_version 3 `"$Mp3Name`""
         Write-Host $convCmd
         Invoke-Expression $convCmd
 
-        # Remove-Item $tmp
     }
 
 Write-Host "`n`n`t\m/"
